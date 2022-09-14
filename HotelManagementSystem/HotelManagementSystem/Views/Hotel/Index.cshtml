@@ -1,0 +1,50 @@
+﻿@model List<HotelManagementSystem.Models.Hotel>
+@{
+    ViewData["Title"] = "Hotels";
+}
+    <div class="row pt-4">
+        <h3 class="text-primary">Hotel List</h3>
+    </div>
+    <div class="col-2" style="float: right">
+    <a asp-controller="Hotel" asp-action="Create" class="btn btn-dark">Create New Record</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>Name</label>
+            </th>
+            <th>
+                <label>Price</label>
+            </th>
+            <th>
+                <label>GeoLocation</label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@if(Model != null)
+        {
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GeoLocation)
+            </td>
+            <td style="align-items:end">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">View</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-secondary btn-sm" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+            </td>
+        </tr> 
+        }
+}
+    </tbody>
+    </table>

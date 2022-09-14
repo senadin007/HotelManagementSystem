@@ -1,0 +1,38 @@
+﻿@using HotelManagementSystem.Models
+@model PaginationVM
+
+@if (Model != null)
+{
+    var queryString = Context.Request.QueryString.ToString();
+    var PaginationPosition = queryString.IndexOf("page=");
+    PaginationPosition = PaginationPosition != -1 ? PaginationPosition - 1 : queryString.Length; // -1 because of & or ?
+    var querySubStr = queryString.Substring(0, PaginationPosition);
+    var relativeUrl = Context.Request.Path.Value + querySubStr;
+    var character = querySubStr.Length == 0 ? "?" : "&";
+    relativeUrl = relativeUrl + character;
+    <nav class="navigation">
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@(relativeUrl)page=@Model.PreviousPage&size=@Model.PageSize">
+                        Previous page
+                    </a>
+                </li>
+            }
+            <li class="page-item active">
+                <a class="page-link" id="current-page">
+                    @Model.PageIndex
+                </a>
+            </li>
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@(relativeUrl)page=@Model.NextPage&size=@Model.PageSize">
+                        Next page
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
